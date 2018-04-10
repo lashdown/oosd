@@ -1,7 +1,11 @@
+/*******************************************************************************
+ * Laurence Ashdown
+ * OOSD Assignment
+ * RMIT Semester 1 2018
+ ******************************************************************************/
 package model;
 
 import java.awt.BorderLayout;
-import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Image;
@@ -10,7 +14,6 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -23,11 +26,14 @@ public class GameEngineImpl implements GameEngine {
 	private int size;
 	private Player player1 = new Player("Joe");
 	private Player player2 = new Player("Bob");
-	private MouseListener availListen, turnListen;
-	private Image imgGun, imgMan, imgHelmet, imgShield, imgArrow, imgBow;
-	private ImageIcon gun, man, helmet, shield, arrow, bow;
+	private Image imgGun, imgMan, imgHelmet, imgShield, imgArrow, imgBow, imgHorse, imgSpear;
+	@SuppressWarnings("unused")
+	private ImageIcon gun, man, helmet, shield, arrow, bow, horse, spear;
 
 	public GameEngineImpl() {
+		
+		// Load images and set icon images.
+		
 		try {
 			imgGun = ImageIO.read(new File("src/resources/gun.png"));
 			imgMan = ImageIO.read(new File("src/resources/man.png"));
@@ -35,6 +41,8 @@ public class GameEngineImpl implements GameEngine {
 			imgHelmet = ImageIO.read(new File("src/resources/helmet.png"));
 			imgArrow = ImageIO.read(new File("src/resources/arrow.png"));
 			imgBow = ImageIO.read(new File("src/resources/bow.png"));
+			imgHorse = ImageIO.read(new File("src/resources/horse.png"));
+			imgSpear = ImageIO.read(new File("src/resources/spear.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -45,7 +53,8 @@ public class GameEngineImpl implements GameEngine {
 		helmet = new ImageIcon(imgHelmet);
 		arrow = new ImageIcon(imgArrow);
 		bow = new ImageIcon(imgBow);
-		
+		horse = new ImageIcon(imgHorse);
+		spear = new ImageIcon(imgSpear);
 	}
 
 	@Override
@@ -68,22 +77,35 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public void loadStartingPieces() {
+		
 		player1.getPieces().clear();
 		player2.getPieces().clear();
 		
+		// Manually set both player starting units
+		
+		GUI.getHexButtons()[0][2].setIcon(horse);
+		GUI.getHexButtons()[0][size-3].setIcon(horse);
+		GUI.getHexButtons()[0][3].setIcon(bow);
+		GUI.getHexButtons()[0][size-4].setIcon(bow);
+		GUI.getHexButtons()[0][4].setIcon(shield);
+		
+		GUI.getHexButtons()[8][2].setIcon(helmet);
+		GUI.getHexButtons()[8][size-3].setIcon(helmet);
+		GUI.getHexButtons()[8][3].setIcon(spear);
+		GUI.getHexButtons()[8][size-4].setIcon(spear);
+		GUI.getHexButtons()[8][4].setIcon(gun);
+		
+		// Load starting units into player ArrayList, player1, player2
+		
 			for (int i = 0; i < size; i++) {
-				
 				if (i > 1 && i < size - 2) {
-					
-					GUI.getHexButtons()[0][i].setIcon(shield);
-					GUI.getHexButtons()[size - 1][i].setIcon(helmet);
 					player1.addPiece(GUI.getHexButtons()[0][i]);
 					player2.addPiece(GUI.getHexButtons()[size - 1][i]);
-					
 				}
 			}
 		
 		GUI.getTextArea().setText(null);
+		
 		GUI.getTextArea().append(player1.getName() + "'s pieces: ");
 		for(HexButton button : player1.getPieces()) {
 			GUI.getTextArea().append("[" + Integer.toString(button.getHexX())
@@ -99,22 +121,22 @@ public class GameEngineImpl implements GameEngine {
 	}
 
 	public void playerTurn(Player player) {
+		
 		GUI.getTextArea().append(player.getName() + "'s turn.\n");
 		for (HexButton button : player.getPieces()) {
 			if (button == GUI.getHex(button)) {
-
-				
 				button.addMouseListener(addTurnListener(player, button));
 			}
 		}
-		GUI.transferFocus();
 	}
 
 	protected void showAvailableMoves(HexButton button, Player player) {
 		// TODO Auto-generated method stub
-		int minX = 0,  maxX = 0;
-		
-		for (int i = -1; i < 2; i++) { //Will always be this, one up one down
+		int minX = 0,  maxX = 0, doubleMove = 2;
+		if(button.getIcon() == horse) {
+			doubleMove = 3;
+		}
+		for (int i = -1; i < doubleMove; i++) { //Will always be this, one up one down
 			
 			if(button.getHexX()%2==1 && i == 0) {
 				maxX = 1;
@@ -143,6 +165,7 @@ public class GameEngineImpl implements GameEngine {
 					
 					if (check.getIcon() == null) {
 						check.setColor(Color.GREEN);
+						
 						check.addMouseListener(addAvailListener(player, button, check));
 					}
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -169,7 +192,6 @@ public class GameEngineImpl implements GameEngine {
 	}
 	
 	public Player switchPlayer(Player player) {
-		GUI.getTextArea().append("Switch player\n");
 		removeListener();
 		if(player == player1) {
 			player = player2;
@@ -197,7 +219,7 @@ public class GameEngineImpl implements GameEngine {
 	}
 	
 	public MouseListener addTurnListener(Player player, HexButton button) {
-		turnListen = new MouseListener() {
+		MouseListener turnListen = new MouseListener() {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -246,9 +268,8 @@ public class GameEngineImpl implements GameEngine {
 
 	@Override
 	public MouseListener addAvailListener(Player player, HexButton button, HexButton check) {
-		return availListen = new MouseListener() {
-
-
+		MouseListener availListen = new MouseListener() {
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
@@ -282,5 +303,6 @@ public class GameEngineImpl implements GameEngine {
 				
 			}
 		};
+		return availListen;
 	}
 }

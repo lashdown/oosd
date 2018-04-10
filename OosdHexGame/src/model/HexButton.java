@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Laurence Ashdown
+ * OOSD Assignment
+ * RMIT Semester 1 2018
+ ******************************************************************************/
 package model;
 
 import java.awt.BasicStroke;
@@ -18,14 +23,14 @@ public class HexButton extends JButton implements Hex{
     private Color color = Color.RED;
     private int x, y;
    
+    public HexButton() {
+    	
+	}
+    
     public Color getColor() {
 		return color;
 	}
 
-	public HexButton() {
-	
-	}
-	
 	public void setColor(Color color) {
 		this.color = color;
 	}

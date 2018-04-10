@@ -1,6 +1,12 @@
+/*******************************************************************************
+ * Laurence Ashdown
+ * OOSD Assignment
+ * RMIT Semester 1 2018
+ ******************************************************************************/
 package model.interfaces;
 
-import java.util.ArrayList;
+import model.HexButton;
+import model.Player;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -8,8 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 
-import model.HexButton;
-import model.Player;
+
 
 public interface Board{
 
@@ -22,8 +27,6 @@ public interface Board{
 	public void setHexButtons(HexButton[][] hexButtons);
 	
 	public void setGamePiece(ImageIcon icon, int x, int y);
-	
-	//public void showAvailableMoves(HexButton button, ArrayList<HexButton> buttons);
 	
 	public HexButton getHex(HexButton button);
 	
@@ -40,5 +43,9 @@ public interface Board{
 	public void setRed();
 	
 	public void transferFocus();
+	
+	public void clearBoard();
+	
+	public void clearTextArea();
 
 }

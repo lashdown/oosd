@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Laurence Ashdown
+ * OOSD Assignment
+ * RMIT Semester 1 2018
+ ******************************************************************************/
 package model;
 
 import java.awt.BorderLayout;
@@ -6,8 +11,6 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -108,7 +111,14 @@ public class GUI implements Board{
 	}
 	
 	
-	
+	public void clearBoard() {
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				hexButtons[i][j] = null;
+			}
+		}
+		
+	}
 
 	
 	public HexButton getHex(HexButton button) {
@@ -178,5 +188,11 @@ public class GUI implements Board{
 				
 			}
 		}
+	}
+
+	@Override
+	public void clearTextArea() {
+		textArea.setText(null);
+		
 	}
 }
