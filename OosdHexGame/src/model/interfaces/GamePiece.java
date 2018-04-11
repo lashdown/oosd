@@ -6,5 +6,6 @@
 package model.interfaces;
 
 public interface GamePiece {
-
+	
+	public abstract GamePiece mergePieces(GamePiece piece1, GamePiece piece2);
 }

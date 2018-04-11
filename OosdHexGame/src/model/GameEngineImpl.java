@@ -223,7 +223,6 @@ public class GameEngineImpl implements GameEngine {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-
 				if (button.getColor() != Color.BLUE) {
 					button.setColor(Color.GREEN);
 				} 
