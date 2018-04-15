@@ -3,25 +3,32 @@
  * OOSD Assignment
  * RMIT Semester 1 2018
  ******************************************************************************/
-package model;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
-import model.interfaces.Board;
+
+import model.Player;
 import model.interfaces.GameEngine;
+import model.pieces.Piece;
 
 
-public class GUI implements Board{
+public class GUI implements view.interfaces.Board{
 
 	private HexButton[][] hexButtons;
 	private GameEngine ge;
@@ -45,7 +52,7 @@ public class GUI implements Board{
 	@Override
 	public JPanel createBoard(GameEngine engine, int size) {
 		this.ge = engine;
-		JPanel hexBoard = new JPanel();
+		Background hexBoard = new Background();
 		hexButtons = new HexButton[size][size];
 		hexBoard.setLayout(new BorderLayout());
 		this.size = size;
@@ -87,7 +94,13 @@ public class GUI implements Board{
             
         }
         hexBoard.setVisible(true);
-        hexBoard.setBackground(Color.CYAN);
+        Image bg;
+		try {
+			bg = ImageIO.read(new File("src/resources/hill2.png"));
+			hexBoard.setBgImage(bg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return hexBoard;
 	}
 
@@ -100,7 +113,7 @@ public class GUI implements Board{
 	    JButton button = new JButton("Load/Reset Pieces");
 	    button.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) {
-	    		  
+	    		  clearBoard();
 	    		  ge.loadStartingPieces();
 	    	  } 
 	    	});
@@ -114,7 +127,7 @@ public class GUI implements Board{
 	public void clearBoard() {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				hexButtons[i][j] = null;
+				hexButtons[i][j].setPiece(null);;
 			}
 		}
 		
@@ -141,8 +154,18 @@ public class GUI implements Board{
 		this.hexButtons = hexButtons;
 	}
 	
-	public void setGamePiece(ImageIcon icon, int x, int y) {
-		hexButtons[x][y].setIcon(icon);
+	
+	// Takes the list of players, and assigns their piece's starting locations
+	public void assignStartPieces(ArrayList<Player> players) {
+		int x = 2, y = 0;
+		for(Player player : players) {
+			x = 2;
+			for(Piece piece : player.getPieces()) {
+				hexButtons[y][x].setPiece(piece);
+				x++;
+			}
+			y = 8;
+		}
 	}
 	
 	public void createPane() {
@@ -154,15 +177,12 @@ public class GUI implements Board{
 		
 	}
 	
+	
 	public void appendConsole(Player player) {
-		getTextArea().append(player.getName()+ "'s pieces: ");
-		for(HexButton button : player.getPieces()) {
-			getTextArea().append("[" + Integer.toString(button.getHexX())
-					+", " + Integer.toString(button.getHexY()) + "]  ");
-		}
-		getTextArea().append("\n");
+		
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
+
 
 	public JScrollPane getPane() {
 		return pane;
@@ -189,6 +209,7 @@ public class GUI implements Board{
 			}
 		}
 	}
+	
 
 	@Override
 	public void clearTextArea() {

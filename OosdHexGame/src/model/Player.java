@@ -7,13 +7,15 @@ package model;
 
 import java.util.ArrayList;
 
+import model.pieces.Piece;
+
 
 
 public class Player{
 
 	private String name;
 	private int score;
-	private ArrayList<HexButton> pieces = new ArrayList<HexButton>();
+	private ArrayList<Piece> pieces = new ArrayList<Piece>();
 	
 	
 	public Player(String name) {
@@ -25,11 +27,11 @@ public class Player{
 		return null;
 	}
 
-	public ArrayList<HexButton> getPieces() {
+	public ArrayList<Piece> getPieces() {
 		return pieces;
 	}
 
-	public void setPieces(ArrayList<HexButton> pieces) {
+	public void setPieces(ArrayList<Piece> pieces) {
 		this.pieces = pieces;
 	}
 
@@ -49,13 +51,13 @@ public class Player{
 		this.name = name;
 	}
 	
-	public void addPiece(HexButton piece) {
+	public void addPiece(Piece piece) {
 		pieces.add(piece);
 	}
 	
-	public void removePiece(HexButton piece) {
-		for(HexButton button : pieces) {
-			if(button == piece) {
+	public void removePiece(Piece piece) {
+		for(Piece find : pieces) {
+			if(find == piece) {
 				pieces.remove(piece);
 			}
 		}

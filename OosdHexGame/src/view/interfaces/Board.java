@@ -3,10 +3,13 @@
  * OOSD Assignment
  * RMIT Semester 1 2018
  ******************************************************************************/
-package model.interfaces;
+package view.interfaces;
 
-import model.HexButton;
 import model.Player;
+import model.interfaces.GameEngine;
+import view.HexButton;
+
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -25,8 +28,6 @@ public interface Board{
 	public HexButton[][] getHexButtons();
 	
 	public void setHexButtons(HexButton[][] hexButtons);
-	
-	public void setGamePiece(ImageIcon icon, int x, int y);
 	
 	public HexButton getHex(HexButton button);
 	
@@ -47,5 +48,7 @@ public interface Board{
 	public void clearBoard();
 	
 	public void clearTextArea();
+	
+	public void assignStartPieces(ArrayList<Player> players);
 
 }

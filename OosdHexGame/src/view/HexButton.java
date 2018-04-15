@@ -3,14 +3,16 @@
  * OOSD Assignment
  * RMIT Semester 1 2018
  ******************************************************************************/
-package model;
+package view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JButton;
-import model.interfaces.Hex;
+
+import model.pieces.Piece;
+import view.interfaces.Hex;
 
 public class HexButton extends JButton implements Hex{
 
@@ -22,6 +24,8 @@ public class HexButton extends JButton implements Hex{
     private Boolean selected = false;
     private Color color = Color.RED;
     private int x, y;
+    private Piece piece;
+   
    
     public HexButton() {
     	
@@ -87,6 +91,24 @@ public class HexButton extends JButton implements Hex{
 	public void setHexY(int y) {
 		this.y = y;
 	}
+
+	public Piece getPiece() {
+		return piece;
+	}
+
+	public void setPiece(Piece piece) {
+		if(piece != null) {
+			this.piece = piece;
+			this.setIcon(piece.getIcon());
+		}
+		else {
+			this.setIcon(null);
+			this.piece = null;
+		}
+		
+		
+	}
+	
 
 	
 

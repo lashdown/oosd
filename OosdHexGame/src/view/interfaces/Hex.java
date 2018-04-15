@@ -3,7 +3,7 @@
  * OOSD Assignment
  * RMIT Semester 1 2018
  ******************************************************************************/
-package model.interfaces;
+package view.interfaces;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

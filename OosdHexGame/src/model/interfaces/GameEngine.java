@@ -7,8 +7,8 @@ package model.interfaces;
 
 import java.awt.event.MouseListener;
 
-import model.HexButton;
 import model.Player;
+import view.HexButton;
 
 public interface GameEngine {
 	
@@ -18,7 +18,10 @@ public interface GameEngine {
 	
 	public void playerTurn(Player player);
 	
-	public void removeListener();
+	public Player switchPlayer(Player player);
 	
-	public MouseListener addAvailListener(Player player, HexButton button, HexButton check);
+	public void removeMouseListeners(Player player);
+	
+	
+	
 }
