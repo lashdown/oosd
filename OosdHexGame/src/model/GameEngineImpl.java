@@ -100,7 +100,7 @@ public class GameEngineImpl implements GameEngine {
 			for(int j = 0; j < size; j++) {
 				
 				MouseListener ml[] = GUI.getHexButtons()[i][j].getMouseListeners();
-				for(int k = 0; k < ml.length; k++) {
+				for(int k = 1; k < ml.length; k++) {
 					GUI.getHexButtons()[i][j].removeMouseListener(ml[k]);
 					
 				}
